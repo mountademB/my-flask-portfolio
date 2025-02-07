@@ -2,7 +2,7 @@ name: Docker Build and Push
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master ]  # or 'main', depending on your default branch name
 
 jobs:
   build-and-push:
