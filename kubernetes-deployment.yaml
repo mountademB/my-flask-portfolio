@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-flask-portfolio
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: my-flask-portfolio
+  template:
+    metadata:
+      labels:
+        app: my-flask-portfolio
+    spec:
+      containers:
+      - name: my-flask-portfolio
+        image: ${DOCKERHUB_USERNAME}/my-flask-portfolio:latest
+        ports:
+        - containerPort: 5000
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "512Mi"
+          requests:
+            cpu: "0.2"
+            memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-flask-portfolio
+spec:
+  selector:
+    app: my-flask-portfolio
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: LoadBalancer
